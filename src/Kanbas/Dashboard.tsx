@@ -123,9 +123,24 @@ export default function Dashboard() {
         </div>
       </div>
     
-
     
-      
+      <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+        <div className="card rounded-3 overflow-hidden">
+          <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                to="/Kanbas/Courses/writing/Home">
+            <img src="/images/writing.jpg" width="100%" height={160}/>
+            <div className="card-body">
+              <h5 className="wd-dashboard-course-title card-title">
+              CS6 writing
+              </h5>
+              <p className="wd-dashboard-course-title card-text">
+                  Full Stack software developer
+              </p>
+              <button className="btn btn-primary"> Go </button>
+            </div>
+          </Link>
+        </div>
+      </div>
       </div>
     
   </div>
