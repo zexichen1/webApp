@@ -1,20 +1,40 @@
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
+  const { aid } = useParams();
+  const assignments_database = db.assignments;
+  const assignment = assignments_database.find(assign => assign._id === aid);
   return (
     <div id="wd-assignments-editor" className="container">
       <div className="row mb-3">
         <div className="col-12">
           <label htmlFor="wd-name" className="form-label">Assignment Name</label>
-          <input id="wd-name" value="A1" className="form-control" />
+          <input id="wd-name" value={assignment?.title || ""} className="form-control" />
         </div>
       </div>
 
       <div className="row mb-3 py-3">
         <div className="col-12">
-          <textarea id="wd-description" rows={5} className="form-control">
-          The assignment is available online. Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments. Link to the Kanbas application Links to all relevant source code repositories. The Kanbas application should include a link to navigate back to the landing page.
-          </textarea>
+          <div className="p-3 border rounded">
+            <p>
+              The assignment is <span className="text-danger">available online</span>.
+            </p>
+            <p>
+              Submit a link to the landing page of your Web application running on Netlify.
+            </p>
+            <p>The landing page should include the following:</p>
+            <ul>
+              <li>Your full name and section</li>
+              <li>Links to each of the lab assignments</li>
+              <li>Link to the Kanbasapplication</li>
+              <li>Links to all relevant source code repositories</li>
+            </ul>
+            <p>
+              The Kanbas application should include a link to navigate back to the landing page.
+            </p>
+          </div>
         </div>
       </div>
 

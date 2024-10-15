@@ -6,7 +6,11 @@ import { BsGripVertical } from "react-icons/bs";
 import ModuleControlButtons from "./ModuleControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { IoCaretDown } from "react-icons/io5";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
     return (
       <div id="wd-assignments">
         <div id="wd-assignments-controls" className="d-flex align-items-center mb-3">
@@ -42,6 +46,9 @@ export default function Assignments() {
           </div>
 
           <ul className="list-group rounded-0">
+          {assignments
+          .filter((assignments: any) => assignments.course === cid)
+          .map((assignments: any) => (
             <li className="wd-lesson list-group-item d-flex align-items-center justify-content-between  p-3 ps-1">
               <div className="d-flex align-items-center w-75">
                 <div className="d-flex align-items-center me-3">
@@ -50,8 +57,8 @@ export default function Assignments() {
                 </div>
                 
                 <div>
-                  <a className="fw-bold text-dark" href="#/Kanbas/Courses/1234/Assignments/123">
-                    A1
+                  <a className="fw-bold text-dark" href={`#/Kanbas/Courses/1234/Assignments/${assignments._id}`}>
+                  {assignments.title}
                   </a><br />
                     <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 6 at 12:00am | <strong>Due</strong> May 13 at 11:59pm | 100 pts
                 </div>
@@ -59,42 +66,7 @@ export default function Assignments() {
                 
               <AssignmentControlButtons />
             </li>
-
-            <li className="wd-lesson list-group-item d-flex align-items-center justify-content-between  p-3 ps-1">
-              <div className="d-flex align-items-center w-75">
-                <div className="d-flex align-items-center me-3">
-                  <BsGripVertical className="fs-3" />
-                  <MdAssignment className="text-success fs-3" />
-                </div>
-                
-                <div>
-                  <a className="fw-bold text-dark" href="#/Kanbas/Courses/1234/Assignments/123">
-                    A2
-                  </a><br />
-                    <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 13 at 12:00am | <strong>Due</strong> May 13 at 11:59pm | 100 pts
-                </div>
-              </div>
-                
-              <AssignmentControlButtons />
-            </li>
-
-            <li className="wd-lesson list-group-item d-flex align-items-center justify-content-between  p-3 ps-1">
-              <div className="d-flex align-items-center w-75">
-                <div className="d-flex align-items-center me-3">
-                  <BsGripVertical className="fs-3" />
-                  <MdAssignment className="text-success fs-3" />
-                </div>
-                
-                <div>
-                  <a className="fw-bold text-dark" href="#/Kanbas/Courses/1234/Assignments/123">
-                    A3
-                  </a><br />
-                    <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 20 at 12:00am | <strong>Due</strong> May 13 at 11:59pm | 100 pts
-                </div>
-              </div>
-                
-              <AssignmentControlButtons />
-            </li>
+          ))}
           </ul>
         </li>
       </ul>
