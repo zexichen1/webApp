@@ -99,7 +99,10 @@ export default function Assignments() {
                     <span className="fw-bold text-dark">{assignments.title}</span>
                   ) : null}
                   <br />
-                    <span className="text-danger">Multiple Modules</span> | <strong>Not available until</strong> May 6 at 12:00am | <strong>Due</strong> May 13 at 11:59pm | 100 pts
+                    <span className="text-danger">Multiple Modules</span> | 
+                    <strong>Not available until</strong> {assignments.availableFromDate?  assignments.availableFromDate : "May 13 at 11:59pm"} | 
+                    <strong>Due</strong>{assignments.dueDate?  assignments.dueDate : "May 13 at 11:59pm"} | 
+                    {assignments.points? assignments.points : 100} pts
                 </div>
               </div>
               

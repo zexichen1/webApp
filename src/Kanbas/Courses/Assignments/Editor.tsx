@@ -25,11 +25,11 @@ export default function AssignmentEditor() {
     const newAssignment = {
       _id: aid,
       title: name,
-      description,
+      description: description,
       points: Number(points),
-      dueDate,
-      availableFromDate,
-      availableUntilDate,
+      dueDate: dueDate,
+      availableFromDate: availableFromDate,
+      availableUntilDate: availableUntilDate,
       course: cid,
     };
     if (assignment) {
@@ -82,7 +82,7 @@ export default function AssignmentEditor() {
           className="form-control"
           value={points}
           onChange={(e) => setPoints(e.target.value ? Number(e.target.value) : "")}
-          placeholder="Points"
+          placeholder="100"
         />
         </div>
       </div>
