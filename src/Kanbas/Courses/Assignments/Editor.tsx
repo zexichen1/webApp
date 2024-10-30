@@ -1,40 +1,69 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useParams } from "react-router";
 import * as db from "../../Database";
-
+interface AssignmentEditorProps {
+  onSave: (assignment: any) => void;
+  onCancel: () => void;
+}
 export default function AssignmentEditor() {
-  const { aid } = useParams();
+  const navigate = useNavigate();
+  const { cid, aid } = useParams();
+
   const assignments_database = db.assignments;
   const assignment = assignments_database.find(assign => assign._id === aid);
+
+  const [name, setName] = useState(assignment?.title || "");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState<number | "">("");
+  const [dueDate, setDueDate] = useState("");
+  const [availableFromDate, setAvailableFromDate] = useState("");
+  const [availableUntilDate, setAvailableUntilDate] = useState("");
+
+  const handleSave = () => {
+    const newAssignment = {
+      _id: aid,
+      name,
+      description,
+      points: Number(points),
+      dueDate,
+      availableFromDate,
+      availableUntilDate,
+      course: cid,
+    };
+    // Pass assignment data back to Assignments page
+    navigate(`/Kanbas/Courses/${cid}/Assignments`, { state: { newAssignment } });
+  };
+
+  const handleCancel = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
   return (
     <div id="wd-assignments-editor" className="container">
-      <div className="row mb-3">
-        <div className="col-12">
-          <label htmlFor="wd-name" className="form-label">Assignment Name</label>
-          <input id="wd-name" value={assignment?.title || ""} className="form-control" />
-        </div>
+      <div className="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          className="form-control"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder= {assignment?.title || ""}
+        />
       </div>
 
       <div className="row mb-3 py-3">
         <div className="col-12">
-          <div className="p-3 border rounded">
-            <p>
-              The assignment is <span className="text-danger">available online</span>.
-            </p>
-            <p>
-              Submit a link to the landing page of your Web application running on Netlify.
-            </p>
-            <p>The landing page should include the following:</p>
-            <ul>
-              <li>Your full name and section</li>
-              <li>Links to each of the lab assignments</li>
-              <li>Link to the Kanbasapplication</li>
-              <li>Links to all relevant source code repositories</li>
-            </ul>
-            <p>
-              The Kanbas application should include a link to navigate back to the landing page.
-            </p>
-          </div>
+          <div className="form-group">
+        <label>Description</label>
+        <textarea
+          className="form-control"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Assignment description"
+        />
+      </div>
         </div>
       </div>
 
@@ -43,7 +72,13 @@ export default function AssignmentEditor() {
           <label htmlFor="wd-points" className="form-label">Points</label>
         </div>
         <div className="col-md-8">
-          <input id="wd-points" value="100" className="form-control" />
+        <input
+          type="number"
+          className="form-control"
+          value={points}
+          onChange={(e) => setPoints(e.target.value ? Number(e.target.value) : "")}
+          placeholder="Points"
+        />
         </div>
       </div>
 
@@ -122,7 +157,12 @@ export default function AssignmentEditor() {
           <div className="mb-3">
             <label className="form-label fw-bold">Due</label>
             <div className="input-group">
-              <input type="text" className="form-control" value="May 13, 2024, 11:59 PM" />
+            <input
+                type="date"
+                className="form-control"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
               <span className="input-group-text">
                 <FaRegCalendarAlt />
               </span>
@@ -133,7 +173,12 @@ export default function AssignmentEditor() {
             <div className="col-md-6 mb-3">
               <label className="form-label fw-bold">Available from</label>
               <div className="input-group">
-                <input type="text" className="form-control" value="May 6, 2024, 12:00 AM" />
+              <input
+                type="date"
+                className="form-control"
+                value={availableFromDate}
+                onChange={(e) => setAvailableFromDate(e.target.value)}
+              />
                 <span className="input-group-text">
                   <FaRegCalendarAlt /> 
                 </span>
@@ -143,7 +188,12 @@ export default function AssignmentEditor() {
             <div className="col-md-6 mb-3">
               <label className="form-label fw-bold">Until</label>
               <div className="input-group">
-                <input type="text" className="form-control" value="" placeholder="No due date" />
+              <input
+                type="date"
+                className="form-control"
+                value={availableUntilDate}
+                onChange={(e) => setAvailableUntilDate(e.target.value)}
+              />
                 <span className="input-group-text">
                   <FaRegCalendarAlt />
                 </span>
@@ -155,8 +205,8 @@ export default function AssignmentEditor() {
       </div>
       <hr />
       <div className="d-flex justify-content-end">
-        <button className="btn btn-secondary me-2">Cancel</button>
-        <button className="btn btn-danger">Save</button>
+      <button className="btn btn-primary me-2" onClick={handleSave}>Save</button>
+      <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
       </div>
     </div>
   );
