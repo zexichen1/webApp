@@ -6,44 +6,25 @@ import { BsGripVertical } from "react-icons/bs";
 import ModuleControlButtons from "./ModuleControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { IoCaretDown } from "react-icons/io5";
-import { useLocation, useParams } from "react-router";
-import * as db from "../../Database";
-import { useEffect, useState } from "react";
+import {  useParams } from "react-router";
+import { useState } from "react";
 import RoleBasedRoute from "../RoleBasedRoute";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { deleteAssignment } from "./reducer";
 export default function Assignments() {
   const { cid } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const assignments = useSelector((state: RootState) => state.assignments.assignments);
   
-  const [assignments, setAssignments] = useState<any[]>(db.assignments);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (location.state?.newAssignment) {
-      const existingIndex = assignments.findIndex((a) => a._id === location.state.newAssignment._id);
-      if (existingIndex >= 0) {
-        setAssignments(assignments.map((m) => (m._id === location.state.newAssignment._id ? {
-          _id : location.state.newAssignment._id,
-          title: location.state.newAssignment.name,
-          course: cid
-        } : m)));
-      } else {
-        setAssignments([...assignments, {
-          _id : location.state.newAssignment._id,
-          title: location.state.newAssignment.name,
-          course: cid
-        }]);
-      }
-      navigate(location.pathname, { replace: true });
-    }
-  }, [location.state, navigate]);
-
   const confirmDeleteModule = () => {
     if (assignmentToDelete) {
-      setAssignments(assignments.filter((m) => m._id !== assignmentToDelete));
+      dispatch(deleteAssignment(assignmentToDelete));
       setAssignmentToDelete(null);
       setIsDeleteDialogOpen(false);
     }

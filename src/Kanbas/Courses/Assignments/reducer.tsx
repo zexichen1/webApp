@@ -1,41 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {assignments} from "../../Database";
 
-// Define the Assignment type
-interface Assignment {
-  _id: string;
-  title: string;
-  course: string;
-  description?: string;
-  points?: number;
-  dueDate?: string;
-  availableFromDate?: string;
-  availableUntilDate?: string;
-}
-
-// Define the initial state for assignments
-interface AssignmentsState {
-  assignments: Assignment[];
-}
-
-const initialState: AssignmentsState = {
-  assignments: [], // Start with an empty array
+const initialState = {
+  assignments: assignments,
 };
 
 const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,
     reducers: {
-      addAssignment: (state, action: PayloadAction<Assignment>) => {
-        state.assignments.push(action.payload);
+      addAssignment: (state, { payload: assignments }) => {
+        const newModule: any = {
+          _id: assignments._id,
+          title: assignments.title,
+          course: assignments.course,
+        };
+        state.assignments = [...state.assignments, newModule] as any;  
       },
-      updateAssignment: (state, action: PayloadAction<Assignment>) => {
-        const index = state.assignments.findIndex(a => a._id === action.payload._id);
-        if (index >= 0) {
-          state.assignments[index] = action.payload;
-        }
+      updateAssignment: (state, { payload: assignments }) => {
+        state.assignments = state.assignments.map((m: any) =>
+          m._id === assignments._id ? assignments : m
+        ) as any;
+  
       },
-      deleteAssignment: (state, action: PayloadAction<string>) => {
-        state.assignments = state.assignments.filter(a => a._id !== action.payload);
+      deleteAssignment: (state, { payload: assignmentId }) => {
+        state.assignments = state.assignments.filter(
+          (m: any) => m._id !== assignmentId)
       },
     },
   });

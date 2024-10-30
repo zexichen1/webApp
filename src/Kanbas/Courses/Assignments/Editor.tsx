@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useParams } from "react-router";
-import * as db from "../../Database";
-interface AssignmentEditorProps {
-  onSave: (assignment: any) => void;
-  onCancel: () => void;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { addAssignment, updateAssignment } from "./reducer";
+import { RootState } from "../../store";
+
 export default function AssignmentEditor() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { cid, aid } = useParams();
 
-  const assignments_database = db.assignments;
-  const assignment = assignments_database.find(assign => assign._id === aid);
+  const assignments = useSelector((state: RootState) => state.assignments.assignments);
+  const assignment = assignments.find(assign => assign._id === aid);
 
   const [name, setName] = useState(assignment?.title || "");
   const [description, setDescription] = useState("");
@@ -24,7 +24,7 @@ export default function AssignmentEditor() {
   const handleSave = () => {
     const newAssignment = {
       _id: aid,
-      name,
+      title: name,
       description,
       points: Number(points),
       dueDate,
@@ -32,8 +32,13 @@ export default function AssignmentEditor() {
       availableUntilDate,
       course: cid,
     };
+    if (assignment) {
+      dispatch(updateAssignment(newAssignment)); // Update existing
+    } else {
+      dispatch(addAssignment(newAssignment)); // Add new
+    }
     // Pass assignment data back to Assignments page
-    navigate(`/Kanbas/Courses/${cid}/Assignments`, { state: { newAssignment } });
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
 
   const handleCancel = () => {
