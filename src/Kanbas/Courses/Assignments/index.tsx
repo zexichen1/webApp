@@ -7,11 +7,13 @@ import ModuleControlButtons from "./ModuleControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { IoCaretDown } from "react-icons/io5";
 import {  useParams } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RoleBasedRoute from "../RoleBasedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { deleteAssignment } from "./reducer";
+import {setAssignments, deleteAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 export default function Assignments() {
   const { cid } = useParams();
   const navigate = useNavigate();
@@ -22,8 +24,17 @@ export default function Assignments() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
 
-  const confirmDeleteModule = () => {
+  const fetchModules = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchModules();
+  }, []);
+
+  const confirmDeleteModule = async () => {
     if (assignmentToDelete) {
+      await assignmentsClient.deleteAssignment(assignmentToDelete);
       dispatch(deleteAssignment(assignmentToDelete));
       setAssignmentToDelete(null);
       setIsDeleteDialogOpen(false);
@@ -81,7 +92,7 @@ export default function Assignments() {
 
           <ul className="list-group rounded-0">
           {assignments
-          .filter((assignments: any) => assignments.course === cid)
+          //.filter((assignments: any) => assignments.course === cid)
           .map((assignments: any) => (
             <li className="wd-lesson list-group-item d-flex align-items-center justify-content-between  p-3 ps-1">
               <div className="d-flex align-items-center w-75">

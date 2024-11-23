@@ -4,7 +4,6 @@ import ModulesControls from "./ModulesControls";
 import React, { useState, useEffect  } from "react";
 import { BsGripVertical } from 'react-icons/bs';
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import * as coursesClient from "../client";
 import * as modulesClient from "./client";
 import { setModules, addModule, editModule, updateModule, deleteModule }

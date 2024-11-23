@@ -1,14 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {assignments} from "../../Database";
+//import {assignments} from "../../Database";
 
-const initialState = {
-  assignments: assignments,
+interface Assignment {
+  _id: string;
+  title: string;
+  courseId: string;
+}
+interface AssignmentsState {
+  assignments: Assignment[];
+}
+
+// Initial state
+const initialState: AssignmentsState = {
+  assignments: []
 };
 
 const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,
     reducers: {
+      setAssignments: (state, action) => {
+        state.assignments = action.payload;
+      },
       addAssignment: (state, { payload: assignments }) => {
         const newModule: any = {
           _id: assignments._id,
@@ -31,7 +44,7 @@ const assignmentsSlice = createSlice({
   });
   
   // Export actions for use in components
-  export const { addAssignment, updateAssignment, deleteAssignment } = assignmentsSlice.actions;
+  export const { addAssignment, updateAssignment, deleteAssignment, setAssignments } = assignmentsSlice.actions;
   
   // Export the reducer to add it to the store
   export default assignmentsSlice.reducer;

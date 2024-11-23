@@ -12,6 +12,7 @@ import Session from "./Account/Session";
 import { useSelector } from "react-redux";
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
+  const [other_courses, setOtherCourses] = useState<any[]>([]);
   const [course, setCourse] = useState<any>({
     _id: "1234", name: "New Course", number: "New Number",
     startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
@@ -36,12 +37,15 @@ export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
     let courses = [];
+    let other_courses = [];
     try {
       courses = await userClient.findMyCourses();
+      other_courses = await userClient.findOtherCourses();
     } catch (error) {
       console.error(error);
     }
     setCourses(courses);
+    setOtherCourses(other_courses);
   };
   useEffect(() => {
     fetchCourses();
@@ -56,7 +60,8 @@ export default function Kanbas() {
           <Route path="/" element={<Navigate to="Dashboard" />} />
           <Route path="/Account/*" element={<Account />} />
           <Route path="/Dashboard" element={<ProtectedRoute><Dashboard
-              courses={courses}
+              initialCourses={courses}
+              initialOtherCourses={other_courses}
               course={course}
               setCourse={setCourse}
               addNewCourse={addNewCourse}
