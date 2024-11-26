@@ -1,0 +1,47 @@
+/* TodoListStyles.css */
+
+/* List group styling */
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  /* Input styling */
+  .form-control {
+    margin-right: 0.5rem;
+    width: auto;
+  }
+  
+  /* Button styling */
+  .btn-add {
+    background-color: #28a745;
+    color: white;
+    margin-right: 0.5rem;
+    border: none;
+  }
+  
+  .btn-update {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    margin-right: 0.5rem;
+  }
+  
+  .btn-edit {
+    background-color: #007bff;
+    color: white;
+    margin-right: 0.5rem;
+    border: none;
+  }
+  
+  .btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  .align-end {
+    margin-left: auto;
+  }
+  
