@@ -20,8 +20,13 @@ export const signout = async () => {
   return response.data;
 };
 export const findAllUsers = async () => {
-  const response = await axiosWithCredentials.get(USERS_API);
-  return response.data;
+  try {
+    const response = await axiosWithCredentials.get(USERS_API);
+    return response.data;
+  } catch (error) {
+    console.error("Error in findAllUsers:", error);
+    throw error;
+  }
 };
 
 export const updateUser = async (user: any) => {
@@ -87,4 +92,9 @@ export const deleteEnrollment = async (userId: any, courseId: any) => {
     console.error("Error deleting enrollment:", error);
     throw error;
   }
+};
+export const findUsersByRole = async (role: string) => {
+  const response = await
+    axios.get(`${USERS_API}?role=${role}`);
+  return response.data;
 };
