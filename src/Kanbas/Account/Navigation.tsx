@@ -16,7 +16,7 @@ export default function AccountNavigation() {
         className={getLinkClass("/Kanbas/Account/Signup")}> Signup </Link>
       <Link to="/Kanbas/Account/Profile" id="wd-account-profile-link"
         className={getLinkClass("/Kanbas/Account/Profile")}> Profile </Link>
-          {currentUser && currentUser.role === "ADMIN" && (
+          {currentUser && currentUser.role === "ADMIN"  && (
         <Link to="/Kanbas/Account/Users" id="wd-account-user-link"
       className={getLinkClass("/Kanbas/Account/Users")}> User </Link>)}
     </div>
