@@ -13,9 +13,8 @@ export default function Labs() {
     <Provider store={store}>
     <div className="container-fluid">
       <h1>Labs</h1>
-      <h3>Riqi Huang</h3>
-      CS5610.20595.202510
-      <div><a href="https://github.com/RickyCUHK/kanbas-react-web-app/tree/master" id="wd-github" target="_blank">Github Repo</a></div>
+      <h2>zexi chen</h2>
+      
       <TOC />
       <Routes>
         <Route path="/" element={<Navigate to="Lab1" />} />

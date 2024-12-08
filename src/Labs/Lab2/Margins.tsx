@@ -28,4 +28,6 @@ export default function Margins() {
     Margin all around
   </div>
 </div>
-);}
+
+      
+  );}

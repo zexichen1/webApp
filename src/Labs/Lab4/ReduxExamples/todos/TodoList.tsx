@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
-
-
+import { useSelector } from "react-redux";
+import "./TodoListStyles.css";
 export default function TodoList() {
   const { todos } = useSelector((state: any) => state.todosReducer);
   return (
@@ -19,5 +17,3 @@ export default function TodoList() {
       <hr/>
     </div>
 );}
-
-

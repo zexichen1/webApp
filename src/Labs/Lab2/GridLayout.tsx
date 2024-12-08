@@ -1,6 +1,6 @@
 export default function GridLayout() {
     return (
-<div id="wd-css-grid-layout">
+        <div id="wd-css-grid-layout">
   <div id="wd-css-left-right-layout">
     <h2>Grid layout</h2>
     <div className="wd-grid-row">
@@ -40,4 +40,5 @@ export default function GridLayout() {
   </div>
 </div>
 
-);}
+
+  );}

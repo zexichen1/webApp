@@ -1,6 +1,6 @@
-export default function Zindex() {
+export default function Float() {
     return (
-<div id="wd-float-divs">
+        <div id="wd-float-divs">
  <h2>Float</h2>
  <div>
    <div className="wd-float-left wd-dimension-portrait wd-bg-color-yellow">
@@ -14,4 +14,7 @@ export default function Zindex() {
    <div className="wd-float-done"></div>
  </div>
 </div>
-);}
+
+
+      
+  );}
