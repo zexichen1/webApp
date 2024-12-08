@@ -33,7 +33,7 @@ export default function Kanbas() {
         else { return c; }
     })
   );};
-
+  
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
     let courses = [];
